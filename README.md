@@ -6,8 +6,8 @@ three methods on controllers:
 `authorize_if`, `authorize_unless`, and `authorize` to use former with
 less duplication.
 
-And it raises `YourApplicationName::NotAuthorized` exception, which you
-can rescue and do whatever you demand.
+And it raises `YourApplicationName::NotAuthorizedError` exception, which
+you can rescue and do whatever you demand.
 
 ## API:
 
@@ -45,7 +45,8 @@ class ArticlesController
 end
 ```
 
-It also accepts blocks:
+It also accepts blocks. Exception is raised if block returns falsey
+value.
 
 ```ruby
 class ArticlesController
@@ -190,7 +191,6 @@ class ArticlesController
   end
 end
 ```
-
 
 ### Advanced usage of `authorize_if`.
 
