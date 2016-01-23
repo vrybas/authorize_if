@@ -21,9 +21,7 @@ class ArticlesController
     authorize_if current_user
     # ...
   end
-end
 
-class ArticlesController
   def show
     article = Article.find(params[:id])
 
@@ -31,9 +29,7 @@ class ArticlesController
                  article.group.members.include?(current_user)
     # ...
   end
-end
 
-class ArticlesController
   def edit
     article = Article.find(params[:id])
 
