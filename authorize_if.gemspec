@@ -9,15 +9,13 @@ Gem::Specification.new do |s|
   s.version     = AuthorizeIf::VERSION
   s.authors     = ["Vladimir Rybas"]
   s.email       = ["vladimirrybas@gmail.com"]
-  s.homepage    = "TODO"
-  s.summary     = "TODO: Summary of AuthorizeIf."
-  s.description = "TODO: Description of AuthorizeIf."
+  s.homepage    = "https://github.com/vrybas/authorize_if"
+  s.summary     = "Minimalistic authorization for Ruby on Rails applications."
+  s.description = "Minimalistic authorization for Ruby on Rails applications."
   s.license     = "MIT"
 
-  s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
+  s.files = Dir["{app,config,db,lib}/**/*", "LICENSE", "Rakefile", "README.md"]
   s.test_files = Dir["test/**/*"]
 
   s.add_dependency "rails", "~> 4.2.5"
-
-  s.add_development_dependency "sqlite3"
 end
