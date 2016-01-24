@@ -1,12 +1,11 @@
 # authorize_if
 
 Minimalistic authorization for Ruby on Rails applications. It defines
-three methods on controllers:
+one method on controllers:
 
-`authorize_if`, `authorize_unless`, and `authorize` to use former with
-less duplication.
+`authorize_if`
 
-And it raises `YourApplicationName::NotAuthorizedError` exception, which
+And it raises `AuthorizeIf::NotAuthorizedError` exception, which
 you can rescue and do whatever you demand.
 
 ## API:
@@ -52,7 +51,7 @@ value.
 class ArticlesController
   def show
     authorize_if do
-      # more complex authorization rule
+      false                 # <== exception is raised
     end
 
     # ...
@@ -60,152 +59,16 @@ class ArticlesController
 end
 ```
 
-#### `authorize_unless`
-
-`authorize_unless` has the same signature, as `authorize_if`, but
-inverted:
+If you pass both the object and the block, the block can act as fallback
+if object evaluates to falsey.
 
 ```ruby
 class ArticlesController
   def show
-    authorize_unless current_user.blocked?
-    # ...
-  end
-end
-```
+    authorize_if(false) do
+      true                 # <== exception is not raised
+    end
 
-#### `authorize`
-
-`authorize` method delegates to instance method `authorize_...?` with
-the name of a caller:
-
-```ruby
-class ArticlesController
-  def index
-    authorize           # <-- calls `authorize_index?`
-    # ...
-  end
-
-  def create
-    authorize           # <-- calls `authorize_create?`
-    # ...
-  end
-
-  private
-
-  def authorize_index?
-    # ...
-  end
-
-  def authorize_create?
-    # ...
-  end
-end
-```
-
-This can be extracted to `before_action`:
-
-```ruby
-class ArticlesController
-  before_action :authorize
-
-  def index
-    # ...
-  end
-
-  def create
-    # ...
-  end
-
-  private
-
-  def authorize_index?
-    # ...
-  end
-
-  def authorize_create?
-    # ...
-  end
-end
-```
-
-Those authorization rules can be extracted to a module:
-
-```ruby
-module AuthorizationRules
-  private
-
-  def authorize_index?
-    # ...
-  end
-
-  def authorize_create?
-    # ...
-  end
-end
-
-class ArticlesController
-  include AuthorizationRules
-
-  before_action :authorize
-
-  def index
-    # ...
-  end
-
-  def create
-    # ...
-  end
-end
-
-```
-
-`authorize` can accept parameters, and `authorize_...?` method is called
-with whatever parameters are given:
-
-```ruby
-class ArticlesController
-  def show
-    authorize article   # <-- calls `authorize_show?(article)`
-    # ...
-  end
-
-  private
-
-  def authorize_show?(article)
-    # ...
-  end
-end
-
-class ArticlesController
-  def show
-    authorize model: article,      # <-- calls `can_show?` with whatever
-              user:  current_user  #     parameters are given.
-    # ...
-  end
-
-  private
-
-  def authorize_show?(model:, user:)
-    # ...
-  end
-end
-```
-
-### Advanced usage of `authorize_if`.
-
-`authorize_if` accepts callable objects(procs, lambdas or any other
-object, which responds to `:call`). `call` is executed with one single
-argument, which is an object, which called `authorize_if` method.
-
-```ruby
-class ArticlesController
-  MyAuthRule = -> () do
-    # ...
-  end
-
-  def show
-    authorize_if MyAuthRule
     # ...
   end
 end
