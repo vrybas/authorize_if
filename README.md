@@ -74,7 +74,7 @@ AuthorizeIf raises `AuthorizeIf::NotAuthorizedError` exception, which
 you can rescue with `rescue_from` in your `ApplicaitonController`:
 
 
-```
+```ruby
 class ApplicationController < ActionController::Base
 
   rescue_from "AuthorizeIf::NotAuthorizedError" do
