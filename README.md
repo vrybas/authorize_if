@@ -1,18 +1,15 @@
 # authorize_if
 
 Minimalistic authorization for Ruby on Rails applications. It defines
-one method on controllers:
-
-`authorize_if`
-
-And it raises `AuthorizeIf::NotAuthorizedError` exception, which
-you can rescue and do whatever you demand.
+a single method on controller, which can accept authorization rules and
+raises exception if rule evaluates to `false`.
 
 ## API:
 
 #### `authorize_if`
 
-`authorize_if` can accept booleans or truthy/falsey values:
+`authorize_if` accepts any object, which then is evaluated to `true` or
+`false`.
 
 ```ruby
 class ArticlesController
@@ -44,8 +41,7 @@ class ArticlesController
 end
 ```
 
-It also accepts blocks. Exception is raised if block returns falsey
-value.
+It also accepts blocks. Exception is raised if block evaluates to `false`
 
 ```ruby
 class ArticlesController
@@ -60,7 +56,7 @@ end
 ```
 
 If you pass both the object and the block, the block can act as fallback
-if object evaluates to falsey.
+if object evaluates to `false`.
 
 ```ruby
 class ArticlesController
@@ -71,6 +67,20 @@ class ArticlesController
 
     # ...
   end
+end
+```
+
+AuthorizeIf raises `AuthorizeIf::NotAuthorizedError` exception, which
+you can rescue with `rescue_from` in your `ApplicaitonController`:
+
+
+```
+class ApplicationController < ActionController::Base
+
+  rescue_from "AuthorizeIf::NotAuthorizedError" do
+    head 403
+  end
+
 end
 ```
 
