@@ -27,11 +27,11 @@ class AuthorizeIfUnitTest < ActiveSupport::TestCase
             @instance.authorize_if(a = nil)
           end
         end
+      end
 
-        it "raises ArgumentError if no arguments given" do
-          assert_raises(ArgumentError) do
-            @instance.authorize_if
-          end
+      it "raises ArgumentError if no arguments given" do
+        assert_raises(ArgumentError) do
+          @instance.authorize_if
         end
       end
     end
