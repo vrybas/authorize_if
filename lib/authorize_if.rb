@@ -1,14 +1,10 @@
 module AuthorizeIf
   NotAuthorizedError = Class.new(StandardError)
 
-  def authorize_if(obj = nil, &block)
+  def authorize_if(obj)
     authorized_obj = !!obj
 
-    if block.present?
-      authorized_block = !!block.call(self)
-    end
-
-    authorized_obj || authorized_block || raise(NotAuthorizedError)
+    authorized_obj || raise(NotAuthorizedError)
   end
 end
 

@@ -41,35 +41,6 @@ class ArticlesController
 end
 ```
 
-It also accepts blocks. Exception is raised if block evaluates to `false`
-
-```ruby
-class ArticlesController
-  def show
-    authorize_if do
-      false                 # <== exception is raised
-    end
-
-    # ...
-  end
-end
-```
-
-If you pass both the object and the block, the block can act as fallback
-if object evaluates to `false`.
-
-```ruby
-class ArticlesController
-  def show
-    authorize_if(false) do
-      true                 # <== exception is not raised
-    end
-
-    # ...
-  end
-end
-```
-
 AuthorizeIf raises `AuthorizeIf::NotAuthorizedError` exception, which
 you can rescue with `rescue_from` in your `ApplicaitonController`:
 
