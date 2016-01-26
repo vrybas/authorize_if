@@ -1,10 +1,8 @@
 module AuthorizeIf
   NotAuthorizedError = Class.new(StandardError)
 
-  def authorize_if(obj)
-    authorized_obj = !!obj
-
-    authorized_obj || raise(NotAuthorizedError)
+  def authorize_if(rule)
+    !!rule || raise(NotAuthorizedError)
   end
 end
 
