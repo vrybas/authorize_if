@@ -3,6 +3,10 @@ require 'minitest/autorun'
 
 class DummyClass
   include AuthorizeIf
+
+  def params
+    { action: "index" }
+  end
 end
 
 class AuthorizeIfUnitTest < ActiveSupport::TestCase
@@ -32,6 +36,26 @@ class AuthorizeIfUnitTest < ActiveSupport::TestCase
       it "raises ArgumentError if no arguments given" do
         assert_raises(ArgumentError) do
           @instance.authorize_if
+        end
+      end
+    end
+
+    describe "#authorize_if" do
+      describe "without parameters" do
+        describe "when method, corresponding to action, does exist" do
+          it "returns true when method, corresponding to action, returns true" do
+            instance = @instance.dup
+            instance.define_singleton_method :authorize_index? do true; end
+            assert_equal true, instance.authorize
+          end
+        end
+
+        describe "when method, corresponding to caller, does not exist" do
+          it "raises NotAuthorizedError" do
+            assert_raises(AuthorizeIf::NotAuthorizedError) do
+              @instance.authorize
+            end
+          end
         end
       end
     end
