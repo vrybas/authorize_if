@@ -5,14 +5,11 @@ module AuthorizeIf
     !!rule || raise(NotAuthorizedError)
   end
 
-  def authorize
-    rule = if self.respond_to?(rule_method_name)
-             self.send(:rule_method_name)
-           else
-             false
-           end
+  def authorize(*args, &block)
+    rule = self.respond_to?(rule_method_name) &&
+             self.send(rule_method_name, *args, &block)
 
-    authorize_if(rule)
+    authorize_if(rule || false)
   end
 
   private

@@ -41,20 +41,38 @@ class AuthorizeIfUnitTest < ActiveSupport::TestCase
     end
 
     describe "#authorize_if" do
-      describe "without parameters" do
-        describe "when method, corresponding to action, does exist" do
-          it "returns true when method, corresponding to action, returns true" do
+      describe "when corresponding rule does exist" do
+        describe "without parameters" do
+          it "returns true if rule returns true" do
             instance = @instance.dup
             instance.define_singleton_method :authorize_index? do true; end
             assert_equal true, instance.authorize
           end
         end
 
-        describe "when method, corresponding to caller, does not exist" do
-          it "raises NotAuthorizedError" do
-            assert_raises(AuthorizeIf::NotAuthorizedError) do
-              @instance.authorize
+        describe "with parameters" do
+          it "calls rule with given parameters" do
+            instance = @instance.dup
+            class << instance
+              def authorize_index?(param_1, param_2:, &block)
+                param_1 || param_2 || block.call
+              end
             end
+
+            assert_equal(
+              true,
+              instance.authorize(false, param_2: false) do
+                true
+              end
+            )
+          end
+        end
+      end
+
+      describe "when method, corresponding to caller, does not exist" do
+        it "raises NotAuthorizedError" do
+          assert_raises(AuthorizeIf::NotAuthorizedError) do
+            @instance.authorize
           end
         end
       end
