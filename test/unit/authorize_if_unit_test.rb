@@ -54,16 +54,14 @@ class AuthorizeIfUnitTest < ActiveSupport::TestCase
           it "calls rule with given parameters" do
             instance = @instance.dup
             class << instance
-              def authorize_index?(param_1, param_2:, &block)
-                param_1 || param_2 || block.call
+              def authorize_index?(param_1, param_2:)
+                param_1 || param_2
               end
             end
 
             assert_equal(
               true,
-              instance.authorize(false, param_2: false) do
-                true
-              end
+              instance.authorize(false, param_2: true)
             )
           end
         end

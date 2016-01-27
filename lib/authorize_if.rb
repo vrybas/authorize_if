@@ -7,7 +7,7 @@ module AuthorizeIf
 
   def authorize(*args, &block)
     rule = self.respond_to?(rule_method_name) &&
-             self.send(rule_method_name, *args, &block)
+             self.send(rule_method_name, *args)
 
     authorize_if(rule || false)
   end
