@@ -31,15 +31,6 @@ class AuthorizeIfUnitTest < ActiveSupport::TestCase
             @instance.authorize_if(a = nil)
           end
         end
-
-        describe "when message is given" do
-          it "raises exception with given message" do
-            err = assert_raises(AuthorizeIf::NotAuthorizedError) do
-              @instance.authorize_if(false, message: "Custom Message")
-            end
-            assert_match /\ACustom Message\z/, err.message
-          end
-        end
       end
 
       it "raises ArgumentError if no arguments given" do
@@ -49,7 +40,7 @@ class AuthorizeIfUnitTest < ActiveSupport::TestCase
       end
     end
 
-    describe "#authorize" do
+    describe "#authorize_if" do
       describe "when corresponding rule does exist" do
         describe "without parameters" do
           it "returns true if rule returns true" do
@@ -73,7 +64,6 @@ class AuthorizeIfUnitTest < ActiveSupport::TestCase
               instance.authorize(false, param_2: true)
             )
           end
-
         end
       end
 
