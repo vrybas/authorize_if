@@ -40,7 +40,7 @@ class AuthorizeIfUnitTest < ActiveSupport::TestCase
       end
     end
 
-    describe "#authorize_if" do
+    describe "#authorize" do
       describe "when corresponding rule does exist" do
         describe "without parameters" do
           it "returns true if rule returns true" do
