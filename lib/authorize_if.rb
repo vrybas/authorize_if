@@ -1,8 +1,8 @@
 module AuthorizeIf
   NotAuthorizedError = Class.new(StandardError)
 
-  def authorize_if(rule)
-    !!rule || raise(NotAuthorizedError)
+  def authorize_if(rule, message: nil)
+    !!rule || raise(NotAuthorizedError, message)
   end
 
   def authorize(*args, &block)
