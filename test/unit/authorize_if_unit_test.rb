@@ -33,6 +33,17 @@ class AuthorizeIfUnitTest < ActiveSupport::TestCase
         end
       end
 
+      describe "when block is given" do
+        it "raises exception with message set through block" do
+          err = assert_raises(AuthorizeIf::NotAuthorizedError) do
+            @instance.authorize_if(false) do |config|
+              config.error_message = "Custom Message"
+            end
+          end
+          assert_match /\ACustom Message\z/, err.message
+        end
+      end
+
       it "raises ArgumentError if no arguments given" do
         assert_raises(ArgumentError) do
           @instance.authorize_if
@@ -63,6 +74,17 @@ class AuthorizeIfUnitTest < ActiveSupport::TestCase
               true,
               instance.authorize(false, param_2: true)
             )
+          end
+        end
+
+        describe "when block is given" do
+          it "raises exception with message set through block" do
+            err = assert_raises(AuthorizeIf::NotAuthorizedError) do
+              @instance.authorize(false) do |config|
+                config.error_message = "Custom Message"
+              end
+            end
+            assert_match /\ACustom Message\z/, err.message
           end
         end
       end
