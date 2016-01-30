@@ -1,12 +1,33 @@
 require 'test_helper'
 
 class AuthorizeIfIntegrationTest < ActionDispatch::IntegrationTest
-  test "authorized if true is given" do
-    get show_authorized_path
-    assert_equal 200, response.status
+  begin # `index` action where `authorize_if` is used
+    test "index action is authorized if true is given" do
+      get "/articles", { authorized: true }
+      assert_equal 200, response.status
+    end
+
+    test "index action renders custom error if false is given" do
+      error_message = "Custom #{rand(100)} error message"
+
+      get "/articles", { error_message: error_message }
+      assert_equal 403, response.status
+      assert_equal error_message, response.body
+    end
   end
 
-  test "unauthorized if false is given" do
-    assert_raises(AuthorizeIf::NotAuthorizedError) { get show_unauthorized_path }
+  begin # `show` action where `authorize` is used
+    test "show action is authorized if true is given" do
+      get "/articles/1", { authorized: true }
+      assert_equal 200, response.status
+    end
+
+    test "show action renders custom error if false is given" do
+      error_message = "Custom #{rand(100)} error message"
+
+      get "/articles/1", { error_message: error_message }
+      assert_equal 403, response.status
+      assert_equal error_message, response.body
+    end
   end
 end
