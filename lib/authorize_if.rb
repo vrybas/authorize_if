@@ -12,7 +12,7 @@ module AuthorizeIf
   end
 
   def authorize(*args, &block)
-    rule = self.respond_to?(rule_method_name) &&
+    rule = self.respond_to?(rule_method_name, true) &&
              self.send(rule_method_name, *args)
 
     authorize_if((rule || false), &block)
@@ -22,10 +22,6 @@ module AuthorizeIf
 
   def rule_method_name
     "authorize_#{action_name}?"
-  end
-
-  def action_name
-    params[:action]
   end
 end
 
