@@ -15,6 +15,10 @@ class ArticlesController < ApplicationController
     head 200
   end
 
+  def edit
+    authorize
+  end
+
   private
 
   def authorize_show?

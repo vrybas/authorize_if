@@ -4,6 +4,10 @@ require 'minitest/autorun'
 class DummyClass
   include AuthorizeIf
 
+  def controller_name
+    "dummy"
+  end
+
   def action_name
     "index"
   end
@@ -91,9 +95,11 @@ class AuthorizeIfUnitTest < ActiveSupport::TestCase
 
       describe "when method, corresponding to caller, does not exist" do
         it "raises NotAuthorizedError" do
-          assert_raises(AuthorizeIf::NotAuthorizedError) do
+          err = assert_raises(AuthorizeIf::MissingAuthorizationRuleError) do
             @instance.authorize
           end
+          msg = "No authorization rule defined for action dummy#index. Please define method #authorize_index? for DummyClass"
+          assert_equal msg, err.message
         end
       end
     end

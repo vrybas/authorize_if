@@ -30,4 +30,13 @@ class AuthorizeIfIntegrationTest < ActionDispatch::IntegrationTest
       assert_equal error_message, response.body
     end
   end
+
+  begin # `edit` action where `authorize` is used
+    test "edit action renders Internal Server Error if authorization rule is not defined" do
+      get "/articles/1/edit"
+      assert_equal 500, response.status
+      raise "#{response.body}"
+      assert_match /authorize_edit/, response.body
+    end
+  end
 end
