@@ -8,8 +8,8 @@ module AuthorizeIf
 
   def authorize_if(rule, &block)
     config = Configuration.new
-
     block.call(config) if block
+
     !!rule || raise(NotAuthorizedError, config.error_message)
   end
 
