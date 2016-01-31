@@ -1,7 +1,7 @@
 require 'test_helper'
 require 'minitest/autorun'
 
-class DummyClass
+class DummyController
   include AuthorizeIf
 
   def controller_name
@@ -15,24 +15,24 @@ end
 
 class AuthorizeIfUnitTest < ActiveSupport::TestCase
   describe AuthorizeIf do
-    before do
-      @instance = DummyClass.new
-    end
-
     describe "#authorize_if" do
+      before do
+        @controller = DummyController.new
+      end
+
       describe "when object is given" do
         it "returns true if truthy object is given" do
-          assert_equal true, @instance.authorize_if(true)
-          assert_equal true, @instance.authorize_if(Object.new)
+          assert_equal true, @controller.authorize_if(true)
+          assert_equal true, @controller.authorize_if(Object.new)
         end
 
         it "raises NotAuthorizedError if falsey object is given" do
           assert_raises(AuthorizeIf::NotAuthorizedError) do
-            @instance.authorize_if(false)
+            @controller.authorize_if(false)
           end
 
           assert_raises(AuthorizeIf::NotAuthorizedError) do
-            @instance.authorize_if(a = nil)
+            @controller.authorize_if(a = nil)
           end
         end
       end
@@ -40,7 +40,7 @@ class AuthorizeIfUnitTest < ActiveSupport::TestCase
       describe "when block is given" do
         it "raises exception with message set through block" do
           err = assert_raises(AuthorizeIf::NotAuthorizedError) do
-            @instance.authorize_if(false) do |config|
+            @controller.authorize_if(false) do |config|
               config.error_message = "Custom Message"
             end
           end
@@ -50,25 +50,27 @@ class AuthorizeIfUnitTest < ActiveSupport::TestCase
 
       it "raises ArgumentError if no arguments given" do
         assert_raises(ArgumentError) do
-          @instance.authorize_if
+          @controller.authorize_if
         end
       end
     end
 
     describe "#authorize" do
+      before do
+        @controller = DummyController.new
+      end
+
       describe "when corresponding rule does exist" do
         describe "without parameters" do
           it "returns true if rule returns true" do
-            instance = @instance.dup
-            instance.define_singleton_method :authorize_index? do true; end
-            assert_equal true, instance.authorize
+            @controller.define_singleton_method :authorize_index? do true; end
+            assert_equal true, @controller.authorize
           end
         end
 
         describe "with parameters" do
           it "calls rule with given parameters" do
-            instance = @instance.dup
-            class << instance
+            class << @controller
               def authorize_index?(param_1, param_2:)
                 param_1 || param_2
               end
@@ -76,7 +78,7 @@ class AuthorizeIfUnitTest < ActiveSupport::TestCase
 
             assert_equal(
               true,
-              instance.authorize(false, param_2: true)
+              @controller.authorize(false, param_2: true)
             )
           end
         end
@@ -84,9 +86,8 @@ class AuthorizeIfUnitTest < ActiveSupport::TestCase
         describe "when block is given" do
           it "raises exception with message set through block" do
             err = assert_raises(AuthorizeIf::NotAuthorizedError) do
-              instance = @instance.dup
-              instance.define_singleton_method :authorize_index? do false; end
-              instance.authorize do |config|
+              @controller.define_singleton_method :authorize_index? do false; end
+              @controller.authorize do |config|
                 config.error_message = "Custom Message"
               end
             end
@@ -98,9 +99,9 @@ class AuthorizeIfUnitTest < ActiveSupport::TestCase
       describe "when method, corresponding to caller, does not exist" do
         it "raises NotAuthorizedError" do
           err = assert_raises(AuthorizeIf::MissingAuthorizationRuleError) do
-            @instance.authorize
+            @controller.authorize
           end
-          msg = "No authorization rule defined for action dummy#index. Please define method #authorize_index? for DummyClass"
+          msg = "No authorization rule defined for action dummy#index. Please define method #authorize_index? for #{@controller.class.name}"
           assert_equal msg, err.message
         end
       end
