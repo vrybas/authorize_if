@@ -4,8 +4,8 @@ require 'minitest/autorun'
 class DummyClass
   include AuthorizeIf
 
-  def params
-    { action: "index" }
+  def action_name
+    "index"
   end
 end
 
