@@ -44,7 +44,7 @@ class AuthorizeIfUnitTest < ActiveSupport::TestCase
               config.error_message = "Custom Message"
             end
           end
-          assert_match /\ACustom Message\z/, err.message
+          assert_equal "Custom Message", err.message
         end
       end
 
@@ -90,7 +90,7 @@ class AuthorizeIfUnitTest < ActiveSupport::TestCase
                 config.error_message = "Custom Message"
               end
             end
-            assert_match /\ACustom Message\z/, err.message
+            assert_equal "Custom Message", err.message
           end
         end
       end
