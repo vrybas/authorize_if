@@ -84,7 +84,9 @@ class AuthorizeIfUnitTest < ActiveSupport::TestCase
         describe "when block is given" do
           it "raises exception with message set through block" do
             err = assert_raises(AuthorizeIf::NotAuthorizedError) do
-              @instance.authorize(false) do |config|
+              instance = @instance.dup
+              instance.define_singleton_method :authorize_index? do false; end
+              instance.authorize do |config|
                 config.error_message = "Custom Message"
               end
             end
