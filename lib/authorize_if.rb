@@ -7,14 +7,14 @@ module AuthorizeIf
   end
 
   # Evaluates given object as boolean. Returns 'true' if object
-  # evaluates to 'true'. Raises `AuthorizeIf::NotAuthorizedError` if object
-  # evaluates to 'false'.
+  # evaluates to 'true'. Raises `AuthorizeIf::NotAuthorizedError`
+  # if object evaluates to 'false'.
   #
-  # Also accepts block and calls it with `AuthorizeIf::Configuration` object.
-  # Behavior can be customized by calling methods on configuraiton
-  # object.
+  # Also accepts block and calls it with `AuthorizeIf::Configuration`
+  # object as parameter. Behavior can be customized by calling methods
+  # on configuraiton object.
   #
-  # @param rule
+  # @param [Object] rule
   #   The authorization rule. Any "truthy" or "falsey" Ruby object.
   #
   # @param [Proc] block
