@@ -38,6 +38,12 @@ class AuthorizeIfUnitTest < ActiveSupport::TestCase
       end
 
       describe "when block is given" do
+        it "calls the block with configuration object as an argument" do
+          @controller.authorize_if(true) do |config|
+            assert_equal AuthorizeIf::Configuration, config.class
+          end
+        end
+
         it "raises exception with message set through block" do
           err = assert_raises(AuthorizeIf::NotAuthorizedError) do
             @controller.authorize_if(false) do |config|
@@ -84,14 +90,11 @@ class AuthorizeIfUnitTest < ActiveSupport::TestCase
         end
 
         describe "when block is given" do
-          it "raises exception with message set through block" do
-            err = assert_raises(AuthorizeIf::NotAuthorizedError) do
-              @controller.define_singleton_method :authorize_index? do false; end
-              @controller.authorize do |config|
-                config.error_message = "Custom Message"
-              end
+          it "passes block through to `authorize_if` method" do
+            @controller.define_singleton_method :authorize_index? do true; end
+            @controller.authorize do |config|
+              assert_equal AuthorizeIf::Configuration, config.class
             end
-            assert_equal "Custom Message", err.message
           end
         end
       end

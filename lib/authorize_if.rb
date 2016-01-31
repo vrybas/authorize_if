@@ -2,11 +2,12 @@ module AuthorizeIf
   NotAuthorizedError = Class.new(StandardError)
   MissingAuthorizationRuleError = Class.new(StandardError)
 
+  Configuration = Class.new do
+    attr_accessor :error_message
+  end
+
   def authorize_if(rule, &block)
-    config = Object.new
-    class << config
-      attr_accessor :error_message
-    end
+    config = Configuration.new
 
     block.call(config) if block
     !!rule || raise(NotAuthorizedError, config.error_message)
