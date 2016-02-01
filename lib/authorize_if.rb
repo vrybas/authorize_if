@@ -1,5 +1,8 @@
+# Provides a set of methods to handle authorization scenarios.
+# It is included to ActionController::Base on load.
+#
 module AuthorizeIf
-  NotAuthorizedError = Class.new(StandardError)
+  NotAuthorizedError            = Class.new(StandardError)
   MissingAuthorizationRuleError = Class.new(StandardError)
 
   Configuration = Class.new do
@@ -58,7 +61,7 @@ module AuthorizeIf
     !!rule || raise(NotAuthorizedError, config.error_message)
   end
 
-  # Accepts any attributes and configuration block. Calls corresponding
+  # Accepts any arguments and configuration block. Calls corresponding
   # authorization rule method with given arguments, except block.
   #
   # Then calls `#authorize_if` with the returning value of corresponding
