@@ -7,7 +7,7 @@ That's it.
 
 #### `authorize_if`
 
-`authorize_if` accepts any `truthy` or `falsey` Ruby object.
+Accepts any `truthy` or `falsey` Ruby object.
 
 ```ruby
 class ArticlesController
@@ -110,9 +110,6 @@ controller.
 
 ```
 module AuthorizationRules
-
-  private
-
   def authorize_index?
     current_user.present?
   end
@@ -130,7 +127,7 @@ end
 ```
 
 `authorize` accepts any parameters and passes them to authorization
-rule(except for given block).
+rule.
 
 ```ruby
 class ArticlesController
