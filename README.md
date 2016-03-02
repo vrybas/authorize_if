@@ -1,9 +1,10 @@
 # authorize_if
 
-Minimalistic authorization for Ruby on Rails applications. It defines
-controller methods `authorize` and `authorize_if`, which accept
+Minimalistic authorization library for Ruby on Rails applications. It
+defines controller methods `authorize` and `authorize_if`, which accept
 authorization rules and raise exception if rule evaluates to `false`.
-That's it.
+
+And that's it.
 
 #### `authorize_if`
 
