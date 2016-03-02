@@ -22,7 +22,7 @@ Or install it yourself as:
 
 ## Usage
 
-#### `authorize_if`
+### `authorize_if`
 
 Accepts any `truthy` or `falsey` Ruby object.
 
@@ -56,6 +56,8 @@ class ArticlesController
 end
 ```
 
+#### Exception handling
+
 It raises `AuthorizeIf::NotAuthorizedError` exception, which you can
 rescue right in the controller method
 
@@ -82,6 +84,8 @@ class ApplicationController < ActionController::Base
 end
 ```
 
+#### Configuration
+
 You can set custom error message by using configuration block
 
 ```ruby
@@ -101,7 +105,7 @@ class ApplicationController < ActionController::Base
 end
 ```
 
-#### `authorize`
+### `authorize`
 
 This method helps to extract authorization rules out of controller. It
 expects corresponding authorization rule to exist.
@@ -118,27 +122,6 @@ class ArticlesController
 
   def authorize_index?
     current_user.present?
-  end
-end
-```
-
-You can extract those rules into a module and include them to the
-controller.
-
-```ruby
-module AuthorizationRules
-  def authorize_index?
-    current_user.present?
-  end
-end
-
-class ArticlesController
-  include AuthorizationRules
-
-  def index
-    authorize
-
-    # ...
   end
 end
 ```
@@ -182,6 +165,29 @@ class ArticlesController
 
   def authorize_edit?(article)
     article.author == current_user
+  end
+end
+```
+
+#### Organizing authorization rules
+
+You can extract those rules into a module and include them to the
+controller.
+
+```ruby
+module AuthorizationRules
+  def authorize_index?
+    current_user.present?
+  end
+end
+
+class ArticlesController
+  include AuthorizationRules
+
+  def index
+    authorize
+
+    # ...
   end
 end
 ```
