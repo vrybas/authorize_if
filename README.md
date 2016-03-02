@@ -6,6 +6,22 @@ authorization rules and raise exception if rule evaluates to `false`.
 
 And that's it.
 
+## Installation
+
+Add gem to your application's `Gemfile`:
+
+    gem 'authorize_if'
+
+And then execute:
+
+    $ bundle
+
+Or install it yourself as:
+
+    $ gem install authorize_if
+
+## Usage
+
 #### `authorize_if`
 
 Accepts any `truthy` or `falsey` Ruby object.
