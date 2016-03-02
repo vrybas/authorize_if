@@ -1,4 +1,4 @@
-# authorize_if
+# authorize_if [![Gem Version](https://badge.fury.io/rb/authorize_if.svg)](https://badge.fury.io/rb/authorize_if) [![Build Status](https://travis-ci.org/vrybas/authorize_if.svg?branch=master)](https://travis-ci.org/vrybas/authorize_if) [![Code Climate](https://codeclimate.com/github/vrybas/authorize_if/badges/gpa.svg)](https://codeclimate.com/github/vrybas/authorize_if)
 
 Minimalistic authorization library for Ruby on Rails applications. It
 defines controller methods `authorize` and `authorize_if`, which accept
