@@ -10,8 +10,8 @@ Gem::Specification.new do |s|
   s.authors     = ["Vladimir Rybas"]
   s.email       = ["vladimirrybas@gmail.com"]
   s.homepage    = "https://github.com/vrybas/authorize_if"
-  s.summary     = "Minimalistic authorization for Ruby on Rails applications."
-  s.description = "Minimalistic authorization for Ruby on Rails applications."
+  s.summary     = "Minimalistic authorization library for Ruby on Rails applications."
+  s.description = "Minimalistic authorization library for Ruby on Rails applications."
   s.license     = "MIT"
 
   s.files = Dir["{app,config,db,lib}/**/*", "LICENSE", "Rakefile", "README.md"]

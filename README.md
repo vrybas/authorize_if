@@ -109,7 +109,7 @@ end
 You can extract those rules into a module and include them to the
 controller.
 
-```
+```ruby
 module AuthorizationRules
   def authorize_index?
     current_user.present?
