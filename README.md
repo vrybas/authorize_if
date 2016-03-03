@@ -200,7 +200,7 @@ end
 
 ### Usage outside of controllers
 
-Include `AuthorizeIf` to any class and you'll get `authorize` and
+Include `AuthorizeIf` module to any class and you'll get `authorize` and
 `authorize_if` methods.
 
 ## Contributing
