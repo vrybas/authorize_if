@@ -27,7 +27,7 @@ Or install it yourself as:
 Accepts any `truthy` or `falsey` Ruby object.
 
 ```ruby
-class ArticlesController
+class ArticlesController < ActionController::Base
   def index
     authorize_if current_user
     # ...
@@ -59,10 +59,10 @@ end
 #### Exception handling
 
 It raises `AuthorizeIf::NotAuthorizedError` exception, which you can
-rescue right in the controller method
+rescue right in the controller action
 
 ```ruby
-class ArticlesController
+class ArticlesController < ApplicationController
   def index
     authorize_if current_user
     # ...
@@ -89,7 +89,7 @@ end
 You can set custom error message by using configuration block
 
 ```ruby
-class ArticlesController
+class ArticlesController < ApplicationController
   def index
     authorize_if(current_user) do |config|
       config.error_message = "You are not authorized!"
@@ -107,11 +107,16 @@ end
 
 ### `authorize`
 
-This method helps to extract authorization rules out of controller. It
-expects corresponding authorization rule to exist.
+You can define authorization rules for controller actions like this
+
+##### `"authorize_#{action_name}?"`
+
+And then call `authorize`, which is going to find and evaluate
+corresponding authorization rule.
+
 
 ```ruby
-class ArticlesController
+class ArticlesController < ActionController::Base
   def index
     authorize
 
@@ -130,7 +135,7 @@ end
 rule.
 
 ```ruby
-class ArticlesController
+class ArticlesController < ActionController::Base
   def edit
     article = Article.find(params[:id])
 
@@ -150,7 +155,7 @@ end
 It can also be customized by using configuration block.
 
 ```ruby
-class ArticlesController
+class ArticlesController < ActionController::Base
   def edit
     article = Article.find(params[:id])
 
@@ -171,7 +176,7 @@ end
 
 #### Organizing authorization rules
 
-You can extract those rules into a module and include them to the
+You can always extract rules into a module and include them to the
 controller.
 
 ```ruby
@@ -181,7 +186,7 @@ module AuthorizationRules
   end
 end
 
-class ArticlesController
+class ArticlesController < ActionController::Base
   include AuthorizationRules
 
   def index
@@ -191,6 +196,12 @@ class ArticlesController
   end
 end
 ```
+
+
+### Usage outside of controllers
+
+Include `AuthorizeIf` to any class and you'll get `authorize` and
+`authorize_if` methods.
 
 ## Contributing
 
