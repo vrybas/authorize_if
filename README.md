@@ -176,7 +176,7 @@ end
 
 #### Extracting authorization rules out of controller
 
-You can always extract rules into a module and include them to the
+You can always extract rules into a module and include it to the
 controller.
 
 ```ruby
