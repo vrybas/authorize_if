@@ -37,7 +37,7 @@ class ArticlesController < ActionController::Base
     article = Article.find(params[:id])
 
     authorize_if article.authored_by?(current_user) ||
-                 article.group.members.include?(current_user)
+                 article.published?
     # ...
   end
 
@@ -174,18 +174,12 @@ class ArticlesController < ActionController::Base
 end
 ```
 
-#### Organizing authorization rules
+#### Extracting authorization rules out of controller
 
 You can always extract rules into a module and include them to the
 controller.
 
 ```ruby
-module AuthorizationRules
-  def authorize_index?
-    current_user.present?
-  end
-end
-
 class ArticlesController < ActionController::Base
   include AuthorizationRules
 
@@ -197,6 +191,15 @@ class ArticlesController < ActionController::Base
 end
 ```
 
+```ruby
+class ArticlesController
+  module AuthorizationRules
+    def authorize_index?
+      current_user.present?
+    end
+  end
+end
+```
 
 ### Usage outside of controllers
 
