@@ -19,6 +19,6 @@ Gem::Specification.new do |s|
 
   s.add_dependency "rails", "~> 4.2.5"
 
-  s.add_development_dependency "m", "~> 1.3.1"
+  s.add_development_dependency "rspec-rails", "~> 3"
   s.add_development_dependency "byebug"
 end

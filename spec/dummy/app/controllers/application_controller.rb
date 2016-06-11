@@ -6,4 +6,10 @@ class ApplicationController < ActionController::Base
   rescue_from "AuthorizeIf::NotAuthorizedError" do |exception|
     render text: exception.message, status: 403
   end
+
+  protected
+
+  def current_user
+    raise "stub this method in spec"
+  end
 end
