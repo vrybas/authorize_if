@@ -1,29 +1,26 @@
+require "authorize_if/version"
 require "authorize_if/errors"
 
 # Provides a set of methods to handle authorization scenarios.
 # It is included to ActionController::Base on load.
 #
 module AuthorizeIf
-  Configuration = Class.new do
-    attr_accessor :error_message
-  end
-
   # Evaluates given object as boolean. Returns 'true' if object
   # evaluates to 'true'. Raises `AuthorizeIf::NotAuthorizedError`
   # if object evaluates to 'false'.
   #
-  # Also accepts block and calls it with `AuthorizeIf::Configuration`
-  # object as parameter. Behavior can be customized by calling methods
-  # on configuraiton object.
+  # Also accepts block and yields it with `AuthorizeIf::NotAuthorizedError`
+  # exception object. Behavior can be customized by calling methods
+  # on exception object.
   #
   # @param [Object] rule
   #   The authorization rule. Any "truthy" or "falsey" Ruby object.
   #
   # @param [Proc] block
-  #   The configuration block. Supported configuration:
-  #     `error_message=()` - custom error message, which will be raised
-  #                          along with `AuthorizeIf::NotAuthorizedError`
-  #                          exception.
+  #   The customization block. Supported customization methods:
+  #     `message=()` - custom error message, which will be raised
+  #                    along with `AuthorizeIf::NotAuthorizedError`
+  #                    exception.
   #
   # @example
   #     class ArticlesController
@@ -37,8 +34,8 @@ module AuthorizeIf
   #       def edit
   #         @article = Article.find(params[:id])
   #
-  #         authorize_if @article.authors.include?(current_user) do |config|
-  #           config.error_message = "You are not authorized!"
+  #         authorize_if @article.authors.include?(current_user) do |exception|
+  #           config.message = "You are not authorized!"
   #         end
   #         # => AuthorizeIf::NotAuthorizedError: You are not authorized!
   #
@@ -72,8 +69,8 @@ module AuthorizeIf
   #   authorization rule.
   #
   # @param [Proc] block
-  #   The configuration block. See `#authorize_if` for complete list of
-  #   configuration options.
+  #   The exception customization block. See `#authorize_if` for complete list of
+  #   customization methods.
   #
   # @example
   #     class ArticlesController
@@ -87,8 +84,8 @@ module AuthorizeIf
   #       def edit
   #         @article = Article.find(params[:id])
   #
-  #         authorize(@article) do |config|
-  #           config.error_message = "You are not authorized!"
+  #         authorize(@article) do |exception|
+  #           exception.message = "You are not authorized!"
   #         end
   #         # => AuthorizeIf::NotAuthorizedError: You are not authorized!
   #

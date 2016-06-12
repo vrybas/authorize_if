@@ -32,7 +32,7 @@ RSpec.describe AuthorizeIf do
       it "raises exception with message set through block" do
         expect {
           controller.authorize_if(false) do |config|
-            config.error_message = "Custom Message"
+            config.message = "Custom Message"
           end
         }.to raise_error(AuthorizeIf::NotAuthorizedError, "Custom Message")
       end

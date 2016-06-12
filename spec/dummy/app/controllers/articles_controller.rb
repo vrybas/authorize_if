@@ -1,7 +1,7 @@
 class ArticlesController < ApplicationController
   def index
     authorize_if(current_user.present?) do |exception|
-      exception.error_message = params[:error_message]
+      exception.message = params[:message]
     end
 
     head 200
