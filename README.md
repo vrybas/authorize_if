@@ -22,6 +22,8 @@ evaluates to `false`.
 
 ##### [`License`](#license-1)
 
+- - -
+
 ## `authorize_if`
 
 Accepts any `truthy` or `falsey` Ruby object.
