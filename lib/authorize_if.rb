@@ -54,10 +54,11 @@ module AuthorizeIf
   #   Raised if given object evaluates to 'false'.
   #
   def authorize_if(rule, &block)
-    config = Configuration.new
-    yield(config) if block
+    return true if !!rule
 
-    !!rule || raise(NotAuthorizedError, config.error_message)
+    exception = NotAuthorizedError.exception
+    yield(exception) if block
+    raise(exception, exception.instance_variable_get(:@message))
   end
 
   # Accepts any arguments and configuration block. Calls corresponding
