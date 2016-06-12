@@ -16,8 +16,6 @@ evaluates to `false`.
 ##### [`authorize`](#authorize) - authorization using pre-defined authorization rules
 * [Organizing authorization rules](#organizing-authorization-rules)
 
-##### [`Usage outside of controllers`](#usage-outside-of-controllers)
-
 ##### [`Installation`](#installation)
 
 ##### [`Contributing`](#contributing)
