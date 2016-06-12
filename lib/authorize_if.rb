@@ -39,7 +39,7 @@ module AuthorizeIf
   #
   #         authorize_if @article.authors.include?(current_user) do |exception|
   #           exception.message = "You are not authorized!"
-  #           exception.context[:current_ip] = "192.168.1.1"
+  #           exception.context[:request_ip] = "192.168.1.1"
   #           exception.context[:user_agent] = "Gecko"
   #         end
   #         # => AuthorizeIf::NotAuthorizedError: You are not authorized!
@@ -48,7 +48,7 @@ module AuthorizeIf
   #         e.message
   #         # => "You are not authorized!"
   #
-  #         e.context[:current_ip]
+  #         e.context[:request_ip]
   #         # => "192.168.1.1"
   #
   #         e.context[:user_agent]
@@ -98,7 +98,7 @@ module AuthorizeIf
   #
   #         authorize(@article) do |exception|
   #           exception.message = "You are not authorized!"
-  #           exception.context[:current_ip] = "192.168.1.1"
+  #           exception.context[:request_ip] = "192.168.1.1"
   #           exception.context[:user_agent] = "Gecko"
   #         end
   #         # => AuthorizeIf::NotAuthorizedError: You are not authorized!
@@ -107,7 +107,7 @@ module AuthorizeIf
   #         e.message
   #         # => "You are not authorized!"
   #
-  #         e.context[:current_ip]
+  #         e.context[:request_ip]
   #         # => "192.168.1.1"
   #
   #         e.context[:user_agent]

@@ -2,25 +2,13 @@
 
 Minimalistic authorization library for Ruby on Rails applications. It
 defines controller methods `authorize_if` and `authorize`, which accept
-authorization rules and raise exception if rule evaluates to `false`.
+inline or pre-defined authorization rules and raise exception if rule
+evaluates to `false`.
 
-And that's pretty much it.
+## API methods
 
-## Installation
-
-Add gem to your application's `Gemfile`:
-
-    gem 'authorize_if'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install authorize_if
-
-## Usage
+##### `authorize_if` - inline authorization
+##### `authorize`    - authorization using pre-defined authorization rules
 
 ### `authorize_if`
 
@@ -99,7 +87,7 @@ class ArticlesController < ApplicationController
     authorize_if(current_user) do |exception|
       exception.message = "You are not authorized!"
 
-      exception.context[:current_ip] = "192.168.1.1"
+      exception.context[:request_ip] = "192.168.1.1"
       exception.context[:user_agent] = "Gecko"
     end
     # ...
@@ -113,7 +101,7 @@ class ApplicationController < ActionController::Base
     exception.message
     # => "You are not authorized!"
 
-    exception.context[:current_ip]
+    exception.context[:request_ip]
     # => "192.168.1.1"
 
     exception.context[:user_agent]
@@ -177,14 +165,14 @@ class ArticlesController < ActionController::Base
 
     authorize(article) do |exception|
       exception.message = "You are not authorized!"
-      exception.context[:current_ip] = "192.168.1.1"
+      exception.context[:request_ip] = "192.168.1.1"
     end
 
   rescue AuthorizeIf::NotAuthorizedError => e
     e.message
     # => "You are not authorized!"
 
-    e.context[:current_ip]
+    e.context[:request_ip]
     # => "192.168.1.1"
   end
 
@@ -227,6 +215,20 @@ end
 
 Include `AuthorizeIf` module to any class and you'll get `authorize` and
 `authorize_if` methods.
+
+## Installation
+
+Add gem to your application's `Gemfile`:
+
+    gem 'authorize_if'
+
+And then execute:
+
+    $ bundle
+
+Or install it manually:
+
+    $ gem install authorize_if
 
 ## Contributing
 

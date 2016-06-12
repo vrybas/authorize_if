@@ -27,11 +27,11 @@ RSpec.describe AuthorizeIf do
         expect {
           controller.authorize_if(false) do |exception|
             exception.message = "Custom Message"
-            exception.context[:current_ip] = "192.168.1.1"
+            exception.context[:request_ip] = "192.168.1.1"
           end
         }.to raise_error(AuthorizeIf::NotAuthorizedError, "Custom Message") do |exception|
           expect(exception.message).to eq("Custom Message")
-          expect(exception.context[:current_ip]).to eq("192.168.1.1")
+          expect(exception.context[:request_ip]).to eq("192.168.1.1")
         end
       end
     end
