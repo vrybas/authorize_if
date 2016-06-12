@@ -90,8 +90,8 @@ If block is given, `authorize_if` yields the block with an exception
 object. This allows to set custom error message, which is going to be
 used when exception is raised.
 
-Also you can use key-value hash storage, `context`, to store any data,
-and access it in the exception handling block.
+Also you can use key-value store(plain Ruby hash), `context`, to store
+any data, and access it in the exception handling block.
 
 ```ruby
 class ArticlesController < ApplicationController

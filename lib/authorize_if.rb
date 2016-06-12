@@ -21,9 +21,9 @@ module AuthorizeIf
   #     `message=` - error message, which will be raisedalong
   #                  with `AuthorizeIf::NotAuthorizedError` exception.
   #
-  #     `context` - a hash storage, which is going to be passed along
-  #                 with `AuthorizeIf::NotAuthorizedError` exception as an
-  #                 object attribute.
+  #     `context` - a key-value store(plain Ruby hash), which will be
+  #                  passed along with `AuthorizeIf::NotAuthorizedError`
+  #                  exception object, as an object attribute.
   #
   # @example
   #     class ArticlesController
