@@ -1,7 +1,11 @@
 module AuthorizeIf
   class NotAuthorizedError < StandardError
+    attr_reader :context
+
     def initialize(*)
       @message = nil
+      @context = {}
+
       super
     end
 

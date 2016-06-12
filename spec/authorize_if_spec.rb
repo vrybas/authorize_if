@@ -23,18 +23,16 @@ RSpec.describe AuthorizeIf do
     end
 
     context "when object and block are given" do
-      it "calls the block with configuration object as an argument" do
-        controller.authorize_if(true) do |config|
-          expect(config).to be_kind_of(AuthorizeIf::Configuration)
-        end
-      end
-
-      it "raises exception with message set through block" do
+      it "allows exception customization through the block" do
         expect {
-          controller.authorize_if(false) do |config|
-            config.message = "Custom Message"
+          controller.authorize_if(false) do |exception|
+            exception.message = "Custom Message"
+            exception.context[:current_ip] = "192.168.1.1"
           end
-        }.to raise_error(AuthorizeIf::NotAuthorizedError, "Custom Message")
+        }.to raise_error(AuthorizeIf::NotAuthorizedError, "Custom Message") do |exception|
+          expect(exception.message).to eq("Custom Message")
+          expect(exception.context[:current_ip]).to eq("192.168.1.1")
+        end
       end
     end
 

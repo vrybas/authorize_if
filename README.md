@@ -1,10 +1,10 @@
 # authorize_if [![Gem Version](https://badge.fury.io/rb/authorize_if.svg)](https://badge.fury.io/rb/authorize_if) [![Build Status](https://travis-ci.org/vrybas/authorize_if.svg?branch=master)](https://travis-ci.org/vrybas/authorize_if) [![Code Climate](https://codeclimate.com/github/vrybas/authorize_if/badges/gpa.svg)](https://codeclimate.com/github/vrybas/authorize_if)
 
 Minimalistic authorization library for Ruby on Rails applications. It
-defines controller methods `authorize` and `authorize_if`, which accept
+defines controller methods `authorize_if` and `authorize`, which accept
 authorization rules and raise exception if rule evaluates to `false`.
 
-And that's it.
+And that's pretty much it.
 
 ## Installation
 
@@ -78,29 +78,46 @@ or with `rescue_from` in `ApplicaitonController`:
 
 ```ruby
 class ApplicationController < ActionController::Base
-  rescue_from "AuthorizeIf::NotAuthorizedError" do |exception|
+  rescue_from AuthorizeIf::NotAuthorizedError do |exception|
     head 403
   end
 end
 ```
 
-#### Configuration
+#### Customization of an exception object
 
-You can set custom error message by using configuration block
+If block is given, `authorize_if` yields the block with an exception
+object. This allows to set custom error message, which is going to be
+used when exception is raised.
+
+Also you can use key-value hash storage, `context`, to store any data,
+and access it in the exception handling block.
 
 ```ruby
 class ArticlesController < ApplicationController
   def index
-    authorize_if(current_user) do |config|
-      config.error_message = "You are not authorized!"
+    authorize_if(current_user) do |exception|
+      exception.message = "You are not authorized!"
+
+      exception.context[:current_ip] = "192.168.1.1"
+      exception.context[:user_agent] = "Gecko"
     end
     # ...
   end
 end
+```
 
+```ruby
 class ApplicationController < ActionController::Base
-  rescue_from "AuthorizeIf::NotAuthorizedError" do |exception|
-    render text: exception.message, status: 403
+  rescue_from AuthorizeIf::NotAuthorizedError do |exception|
+    exception.message
+    # => "You are not authorized!"
+
+    exception.context[:current_ip]
+    # => "192.168.1.1"
+
+    exception.context[:user_agent]
+    # => "Gecko"
   end
 end
 ```
@@ -113,7 +130,6 @@ You can define authorization rules for controller actions like this
 
 And then call `authorize`, which is going to find and evaluate
 corresponding authorization rule.
-
 
 ```ruby
 class ArticlesController < ActionController::Base
@@ -131,7 +147,7 @@ class ArticlesController < ActionController::Base
 end
 ```
 
-`authorize` accepts any parameters and passes them to authorization
+`authorize` accepts any arguments and passes them to authorization
 rule.
 
 ```ruby
@@ -152,18 +168,24 @@ class ArticlesController < ActionController::Base
 end
 ```
 
-It can also be customized by using configuration block.
+It also accepts customization block, and yields an exception object:
 
 ```ruby
 class ArticlesController < ActionController::Base
   def edit
     article = Article.find(params[:id])
 
-    authorize(article) do |config|
-      config.error_message = "You are not authorized!"
+    authorize(article) do |exception|
+      exception.message = "You are not authorized!"
+      exception.context[:current_ip] = "192.168.1.1"
     end
 
-    # ...
+  rescue AuthorizeIf::NotAuthorizedError => e
+    e.message
+    # => "You are not authorized!"
+
+    e.context[:current_ip]
+    # => "192.168.1.1"
   end
 
   private
@@ -174,9 +196,9 @@ class ArticlesController < ActionController::Base
 end
 ```
 
-#### Extracting authorization rules out of controller
+#### Organizing authorization rules
 
-You can always extract rules into a module and include it to the
+You can extract rules into a module and include it to the
 controller.
 
 ```ruby

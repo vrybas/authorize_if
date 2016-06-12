@@ -18,9 +18,12 @@ module AuthorizeIf
   #
   # @param [Proc] block
   #   The customization block. Supported customization methods:
-  #     `message=()` - custom error message, which will be raised
-  #                    along with `AuthorizeIf::NotAuthorizedError`
-  #                    exception.
+  #     `message=` - error message, which will be raisedalong
+  #                  with `AuthorizeIf::NotAuthorizedError` exception.
+  #
+  #     `context` - a hash storage, which is going to be passed along
+  #                 with `AuthorizeIf::NotAuthorizedError` exception as an
+  #                 object attribute.
   #
   # @example
   #     class ArticlesController
@@ -35,14 +38,23 @@ module AuthorizeIf
   #         @article = Article.find(params[:id])
   #
   #         authorize_if @article.authors.include?(current_user) do |exception|
-  #           config.message = "You are not authorized!"
+  #           exception.message = "You are not authorized!"
+  #           exception.context[:current_ip] = "192.168.1.1"
+  #           exception.context[:user_agent] = "Gecko"
   #         end
   #         # => AuthorizeIf::NotAuthorizedError: You are not authorized!
   #
-  #         ...
+  #       rescue AuthorizeIf::NotAuthorizedError => e
+  #         e.message
+  #         # => "You are not authorized!"
+  #
+  #         e.context[:current_ip]
+  #         # => "192.168.1.1"
+  #
+  #         e.context[:user_agent]
+  #         # => "Gecko"
   #       end
   #     end
-  #
   #
   # @return [Boolean]
   #   Returns 'true' if given object evaluates to 'true'.
@@ -86,10 +98,20 @@ module AuthorizeIf
   #
   #         authorize(@article) do |exception|
   #           exception.message = "You are not authorized!"
+  #           exception.context[:current_ip] = "192.168.1.1"
+  #           exception.context[:user_agent] = "Gecko"
   #         end
   #         # => AuthorizeIf::NotAuthorizedError: You are not authorized!
   #
-  #         ...
+  #       rescue AuthorizeIf::NotAuthorizedError => e
+  #         e.message
+  #         # => "You are not authorized!"
+  #
+  #         e.context[:current_ip]
+  #         # => "192.168.1.1"
+  #
+  #         e.context[:user_agent]
+  #         # => "Gecko"
   #       end
   #
   #       def destroy
