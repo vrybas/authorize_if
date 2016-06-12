@@ -1,10 +1,9 @@
+require "authorize_if/errors"
+
 # Provides a set of methods to handle authorization scenarios.
 # It is included to ActionController::Base on load.
 #
 module AuthorizeIf
-  NotAuthorizedError            = Class.new(StandardError)
-  MissingAuthorizationRuleError = Class.new(StandardError)
-
   Configuration = Class.new do
     attr_accessor :error_message
   end
