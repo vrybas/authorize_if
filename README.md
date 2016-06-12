@@ -5,12 +5,26 @@ defines controller methods `authorize_if` and `authorize`, which accept
 inline or pre-defined authorization rules and raise exception if rule
 evaluates to `false`.
 
-## API methods
+## API documentation
 
-##### `authorize_if` - inline authorization
-##### `authorize`    - authorization using pre-defined authorization rules
+#### Contents:
 
-### `authorize_if`
+##### [`authorize_if`](#authorize_if) - inline authorization
+* [Exception handling](#exception-handling)
+* [Customization of an exception object](#customization-of-an-exception-object)
+
+##### [`authorize`](#authorize) - authorization using pre-defined authorization rules
+* [Organizing authorization rules](#organizing-authorization-rules)
+
+##### [`Usage outside of controllers`](#usage-outside-of-controllers)
+
+##### [`Installation`](#installation)
+
+##### [`Contributing`](#contributing)
+
+##### [`License`](#license)
+
+## `authorize_if`
 
 Accepts any `truthy` or `falsey` Ruby object.
 
@@ -44,7 +58,7 @@ class ArticlesController < ActionController::Base
 end
 ```
 
-#### Exception handling
+### Exception handling
 
 It raises `AuthorizeIf::NotAuthorizedError` exception, which you can
 rescue right in the controller action
@@ -72,7 +86,7 @@ class ApplicationController < ActionController::Base
 end
 ```
 
-#### Customization of an exception object
+### Customization of an exception object
 
 If block is given, `authorize_if` yields the block with an exception
 object. This allows to set custom error message, which is going to be
@@ -110,7 +124,7 @@ class ApplicationController < ActionController::Base
 end
 ```
 
-### `authorize`
+## `authorize`
 
 You can define authorization rules for controller actions like this
 
@@ -184,7 +198,7 @@ class ArticlesController < ActionController::Base
 end
 ```
 
-#### Organizing authorization rules
+### Organizing authorization rules
 
 You can extract rules into a module and include it to the
 controller.
@@ -211,7 +225,7 @@ class ArticlesController
 end
 ```
 
-### Usage outside of controllers
+## Usage outside of controllers
 
 Include `AuthorizeIf` module to any class and you'll get `authorize` and
 `authorize_if` methods.
