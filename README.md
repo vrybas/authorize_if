@@ -16,11 +16,11 @@ evaluates to `false`.
 ##### [`authorize`](#authorize) - authorization using pre-defined authorization rules
 * [Organizing authorization rules](#organizing-authorization-rules)
 
-##### [`Installation`](#installation)
+##### [`Installation`](#installation-1)
 
-##### [`Contributing`](#contributing)
+##### [`Contributing`](#contributing-1)
 
-##### [`License`](#license)
+##### [`License`](#license-1)
 
 ## `authorize_if`
 
