@@ -213,11 +213,9 @@ end
 ```
 
 ```ruby
-class ArticlesController
-  module AuthorizationRules
-    def authorize_index?
-      current_user.present?
-    end
+module AuthorizationRules
+  def authorize_index?
+    current_user.present?
   end
 end
 ```
