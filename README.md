@@ -70,7 +70,7 @@ class ArticlesController < ApplicationController
     # ...
 
   rescue AuthorizeIf::NotAuthorizedError
-    head 403
+    head 404
 
   end
 end
@@ -81,7 +81,8 @@ or with `rescue_from` in `ApplicaitonController`:
 ```ruby
 class ApplicationController < ActionController::Base
   rescue_from AuthorizeIf::NotAuthorizedError do |exception|
-    head 403
+    head 404
+
   end
 end
 ```
