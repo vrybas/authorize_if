@@ -102,7 +102,6 @@ class ArticlesController < ApplicationController
       exception.message = "You are not authorized!"
 
       exception.context[:request_ip] = "192.168.1.1"
-      exception.context[:user_agent] = "Gecko"
     end
     # ...
   end
@@ -117,9 +116,6 @@ class ApplicationController < ActionController::Base
 
     exception.context[:request_ip]
     # => "192.168.1.1"
-
-    exception.context[:user_agent]
-    # => "Gecko"
   end
 end
 ```
