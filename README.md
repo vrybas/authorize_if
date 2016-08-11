@@ -76,7 +76,7 @@ class ArticlesController < ApplicationController
 end
 ```
 
-or with `rescue_from` in `ApplicaitonController`:
+or with `rescue_from` in `ApplicationController`:
 
 ```ruby
 class ApplicationController < ActionController::Base
