@@ -1,6 +1,7 @@
 require_relative 'boot'
 
-require 'rails/all'
+require 'action_controller/railtie'
+require 'action_view/railtie'
 
 Bundler.require(*Rails.groups)
 require "authorize_if"
