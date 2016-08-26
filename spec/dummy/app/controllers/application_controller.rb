@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   rescue_from "AuthorizeIf::NotAuthorizedError" do |exception|
-    render text: exception.message, status: 403
+    render plain: exception.message, status: 403
   end
 
   protected

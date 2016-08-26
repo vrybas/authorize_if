@@ -68,10 +68,14 @@ RSpec.describe AuthorizeIf do
 
       context "when block is given" do
         it "passes block through to `authorize_if` method" do
-          controller.define_singleton_method(:authorize_index?) { true }
+          controller.define_singleton_method(:authorize_index?) { false }
 
-          controller.authorize do |config|
-            expect(config).to be_kind_of(AuthorizeIf::Configuration)
+          expect {
+            controller.authorize do |exception|
+              exception.message = "passed through"
+            end
+          }.to raise_error(AuthorizeIf::NotAuthorizedError, "passed through") do |exception|
+            expect(exception.message).to eq("passed through")
           end
         end
       end
