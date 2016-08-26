@@ -138,12 +138,9 @@ module AuthorizeIf
     rule_method_name = "authorize_#{action_name}?"
 
     unless self.respond_to?(rule_method_name, true)
-      msg = [
-        "No authorization rule defined for action",
-        "#{controller_name}##{action_name}.",
-        "Please define method ##{rule_method_name} for",
-        self.class.name
-      ].join(' ')
+      msg = "No authorization rule defined for action"\
+            " #{controller_name}##{action_name}."\
+            " Please define method ##{rule_method_name} for #{self.class.name}"
 
       raise(MissingAuthorizationRuleError, msg)
     end
@@ -157,4 +154,3 @@ if defined?(ActiveSupport)
     include AuthorizeIf
   end
 end
-
