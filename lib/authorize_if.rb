@@ -152,6 +152,9 @@ module AuthorizeIf
   end
 end
 
-ActiveSupport.on_load :action_controller do
-  include AuthorizeIf
+if defined?(ActiveSupport)
+  ActiveSupport.on_load :action_controller do
+    include AuthorizeIf
+  end
 end
+
