@@ -18,7 +18,7 @@ to `false`.
 
 ##### [`Installation`](#installation-1)
 
-##### [`Using "authorize_if" outside of Ruby on Rails controllers`](#using-authorize-if-outside-of-ruby-on-rails-controllers)
+##### [`Using "authorize_if" outside of Ruby on Rails controllers`](#using-authorize_if-outside-of-ruby-on-rails-controllers-1)
 
 ##### [`Contributing`](#contributing-1)
 
