@@ -1,9 +1,9 @@
 # authorize_if [![Gem Version](https://badge.fury.io/rb/authorize_if.svg)](https://badge.fury.io/rb/authorize_if) [![Build Status](https://travis-ci.org/vrybas/authorize_if.svg?branch=master)](https://travis-ci.org/vrybas/authorize_if) [![Code Climate](https://codeclimate.com/github/vrybas/authorize_if/badges/gpa.svg)](https://codeclimate.com/github/vrybas/authorize_if)
 
-Minimalistic authorization library for Ruby on Rails applications. It
-defines controller methods `authorize_if` and `authorize`, which
-evaluate inline or pre-defined authorization rules and raise exception
-if rule evaluates to `false`.
+Minimalistic authorization library for Ruby and Rails applications. It
+provides methods `authorize_if` and `authorize`, that evaluate inline or
+pre-defined authorization rules and raise exception if rule evaluates
+to `false`.
 
 ## API documentation
 
@@ -17,6 +17,8 @@ if rule evaluates to `false`.
 * [Organizing authorization rules](#organizing-authorization-rules)
 
 ##### [`Installation`](#installation-1)
+
+##### [`Using "authorize_if" outside of Ruby on Rails controllers`](#using-authorize-if-outside-of-ruby-on-rails-controllers)
 
 ##### [`Contributing`](#contributing-1)
 
@@ -220,11 +222,6 @@ module AuthorizationRules
 end
 ```
 
-## Usage outside of controllers
-
-Include `AuthorizeIf` module to any class and you'll get `authorize` and
-`authorize_if` methods.
-
 ## Installation
 
 Add gem to your application's `Gemfile`:
@@ -238,6 +235,12 @@ And then execute:
 Or install it manually:
 
     $ gem install authorize_if
+
+
+## Using "authorize_if" outside of Ruby on Rails controllers
+
+Include `AuthorizeIf` module, provided by gem, to any Ruby class and
+you'll get `authorize` and `authorize_if` methods.
 
 ## Contributing
 
